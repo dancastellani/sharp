@@ -25,9 +25,9 @@ public class CliUtils {
             BufferedReader bf = new BufferedReader(new InputStreamReader(p.getInputStream()));
             String line = null;
             while ((line = bf.readLine()) != null) {
-                System.out.println(line);
+                System.out.println("    " + line);
             }
-            System.out.println("Done.");
+            System.out.println("Done. -<:" + command);
         } catch (IOException ex) {
             throw new ShapException(ex);
         }

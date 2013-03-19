@@ -4,14 +4,7 @@
  */
 package br.danielcastellani.sonaranalyser;
 
-import br.danielcastellani.sonaranalyser.exception.ShapException;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Properties;
 
 /**
@@ -28,9 +21,27 @@ public class SonarRunnerUtils {
     private static void prepareProject(Properties props) {
         final String destinationFolder = props.getProperty(Main.DESTINATION_FOLDER);
         File propertiesFile = new File(destinationFolder + "/sonar-project.properties");
-        if (!propertiesFile.exists()) {
+
+        System.out.println("Checking if File " + propertiesFile.getAbsoluteFile() + " exists: " + propertiesFile.exists());
+
+        final String useVcsVersion = props.getProperty(Main.USE_VCS_VERSION);
+        boolean forcePropertiesFileCreation = useVcsVersion != null && "true".equalsIgnoreCase(useVcsVersion);
+        if (forcePropertiesFileCreation) {
+            System.out.println("Generating sonar-project.properties with version number of VCS.");
+            final String projectKey = props.getProperty(Main.SONAR_PROJECT_KEY);
+            final String projectName = props.getProperty(Main.SONAR_PROJECT_NAME);
+            final String projectCurrentVersion = props.getProperty(Main.CURRENT_PROJECT_VERSION);
+            final String projectPath = props.getProperty(Main.DESTINATION_FOLDER);
+
+            SonarProjectInformation projectInformation = SonarProjectInformation.createMavenProjectInformation(projectKey, projectName, projectCurrentVersion, new File(projectPath));
+            SonarProjectProperties.createDeafaulSonarProjectPropertiesFile(projectInformation, forcePropertiesFileCreation);
+
+        } else if (!propertiesFile.exists()) {
+            System.out.println("Generating sonar-project.properties");
             final String originalPropertiesFile = props.getProperty(Main.PROPERTIES_FILE);
             copyPropertiesFile(propertiesFile, originalPropertiesFile);
+        } else {
+            System.out.println("File exists...");
         }
     }
 

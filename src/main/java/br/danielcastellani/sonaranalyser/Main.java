@@ -9,6 +9,9 @@ import java.util.Properties;
 
 public class Main {
 
+    public static final String COMENTS = "#";
+    public static final String CURRENT_PROJECT_VERSION = "shap.current.project.version";
+    public static final String USE_VCS_VERSION = "shap.use.vcs.version";
     public static final String FR = "fr";
     public static final String IR = "ir";
     public static final String PROJECT_URL = "project.url";
@@ -18,6 +21,14 @@ public class Main {
     public static final String SVN_USERNAME = "svn.username";
     public static final String SVN_PASSWORD = "svn.password";
     public static final String DESTINATION_FOLDER = "destination.folder";
+    //project information parameters
+    public static final String SONAR_PROJECT_KEY = "sonar.projectKey";
+    public static final String SONAR_PROJECT_NAME = "sonar.projectName";
+    public static final String SONAR_PROJECT_DESCRIPTION = "sonar.projectDescription";
+    public static final String SONAR_PROJECT_VERSION = "sonar.projectVersion";
+    public static final String SONAR_SOURCES = "sonar.sources";
+    public static final String SONAR_TESTS = "sonar.tests";
+    public static final String SONAR_LANGUAGE = "sonar.language";
 
     public static void main(String[] args) {
 
@@ -31,10 +42,18 @@ public class Main {
         int finalRevision = Integer.parseInt(props.getProperty(FR));
         verifyInitialAndFinalRevisionNumbers(initialRevision, finalRevision);
 
+        boolean firstRevision = true;
         for (int revisionNumber = initialRevision; revisionNumber <= finalRevision; revisionNumber++) {
-            SvnUtils.checkout(props, revisionNumber);
+            props.put(CURRENT_PROJECT_VERSION, "r" + revisionNumber);
+            if (firstRevision) {
+                SvnUtils.checkout(props, revisionNumber);
+                firstRevision = false;
+            } else {
+                SvnUtils.update(props, revisionNumber);
+            }
             SonarRunnerUtils.analyse(props);
         }
+
     }
 
     private static void loadProperty(Properties props, String arg) {
@@ -47,6 +66,15 @@ public class Main {
                 || SVN_HOME.equals(key)
                 || SVN_PASSWORD.equals(key)
                 || SVN_USERNAME.equals(key)
+                || USE_VCS_VERSION.equals(key)
+                || SONAR_LANGUAGE.equals(key)
+                || SONAR_PROJECT_DESCRIPTION.equals(key)
+                || SONAR_PROJECT_KEY.equals(key)
+                || SONAR_PROJECT_NAME.equals(key)
+                || SONAR_PROJECT_VERSION.equals(key)
+                || SONAR_RUNNER.equals(key)
+                || SONAR_SOURCES.equals(key)
+                || SONAR_TESTS.equals(key)
                 || PROJECT_URL.equals(key)) {
             props.setProperty(key, value);
             System.out.println("Loading property: " + key + "=" + value);
@@ -91,6 +119,7 @@ public class Main {
         return props;
     }
 
+    //TODO: continue with the SonarProjectInformation properties.
     private static void printUsage() {
         System.out.println("----------- Sonar History Analyses Project ---------");
         System.out.println("usage: [options]");
@@ -121,6 +150,10 @@ public class Main {
             bf = new BufferedReader(new FileReader(configurationFile));
             String line;
             while ((line = bf.readLine()) != null) {
+                if (line.startsWith(COMENTS)) {
+                    System.out.println("Ignoring comented line: " + line);
+                    continue;
+                }
                 loadProperty(props, line);
             }
             return props;
