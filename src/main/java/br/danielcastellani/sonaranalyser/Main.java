@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
 import java.util.Properties;
 
 public class Main {
@@ -30,6 +31,7 @@ public class Main {
     public static final String SONAR_TESTS = "sonar.tests";
     public static final String SONAR_LANGUAGE = "sonar.language";
 
+    //TODO: Change the output from sout to a more elegant way
     public static void main(String[] args) {
 
         if (args.length == 0) {
@@ -42,8 +44,12 @@ public class Main {
         int finalRevision = Integer.parseInt(props.getProperty(FR));
         verifyInitialAndFinalRevisionNumbers(initialRevision, finalRevision);
 
+        List<Integer> validRevisions = SvnUtils.getRevisionsInRange(initialRevision, finalRevision, props);
+        System.out.println("Valid Revisions in rage: " + validRevisions.toString());
+
         boolean firstRevision = true;
-        for (int revisionNumber = initialRevision; revisionNumber <= finalRevision; revisionNumber++) {
+        for (Integer revisionNumber : validRevisions) {
+            System.out.println("------------------------------ Processing Revision " + revisionNumber);
             props.put(CURRENT_PROJECT_VERSION, "r" + revisionNumber);
             if (firstRevision) {
                 SvnUtils.checkout(props, revisionNumber);
@@ -51,8 +57,12 @@ public class Main {
             } else {
                 SvnUtils.update(props, revisionNumber);
             }
+            System.out.println("");
             SonarRunnerUtils.analyse(props);
+            System.out.println("\n\n");
+//            break;
         }
+        System.out.println("------ Finished ---------------------------");
 
     }
 
@@ -149,13 +159,18 @@ public class Main {
             File configurationFile = new File(filePath);
             bf = new BufferedReader(new FileReader(configurationFile));
             String line;
+            System.out.println("Processing file:    ");
             while ((line = bf.readLine()) != null) {
+                System.out.print("> " + line + "...");
                 if (line.startsWith(COMENTS)) {
-                    System.out.println("Ignoring comented line: " + line);
+                    System.out.println(" Ignoring comented line. ");
                     continue;
+                } else {
+                    loadProperty(props, line);
                 }
-                loadProperty(props, line);
+
             }
+            System.out.println("Configurations loaded from file!");
             return props;
 
         } catch (IOException ex) {

@@ -25,7 +25,8 @@ public class SonarProjectProperties {
     static void createDeafaulSonarProjectPropertiesFile(SonarProjectInformation projectInformation, boolean overWriteExistingPropertiesFile) {
         File propertiesFile = new File(projectInformation.projectFolder.getAbsolutePath() + File.separator + SONAR_PROJECT_PROPERTIES_FILE_NAME);
         if (overWriteExistingPropertiesFile) {
-            propertiesFile.delete();
+            boolean deleted = propertiesFile.delete();
+            System.out.println("Deleting File " + propertiesFile.getName() + " : " + deleted);
         }
         if (!propertiesFile.exists()) {
             createNewPropertiesFile(propertiesFile, projectInformation);

@@ -15,8 +15,9 @@ import java.io.InputStreamReader;
  */
 public class CliUtils {
 
-    static void exec(String command) {
+    static String exec(String command) {
         try {
+            StringBuffer outputString = new StringBuffer();
             System.out.println("Executando:" + command);
             Process p = Runtime.getRuntime().exec(command);
 //            PrintStream ps = new PrintStream(p.getOutputStream());
@@ -25,9 +26,11 @@ public class CliUtils {
             BufferedReader bf = new BufferedReader(new InputStreamReader(p.getInputStream()));
             String line = null;
             while ((line = bf.readLine()) != null) {
-                System.out.println("    " + line);
+                System.out.println(line);
+                outputString.append(line).append("\n");
             }
             System.out.println("Done. -<:" + command);
+            return outputString.toString();
         } catch (IOException ex) {
             throw new ShapException(ex);
         }
