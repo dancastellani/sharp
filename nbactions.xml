@@ -32,7 +32,7 @@
                 <goal>sonar:sonar</goal>
             </goals>
             <activatedProfiles>
-                <activatedProfile>-Psonar</activatedProfile>
+                <activatedProfile>sonar</activatedProfile>
             </activatedProfiles>
         </action>
     </actions>
