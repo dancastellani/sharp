@@ -7,6 +7,7 @@ package br.danielcastellani.sonaranalyser;
 import br.danielcastellani.sonaranalyser.exception.ShapException;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 /**
  *
