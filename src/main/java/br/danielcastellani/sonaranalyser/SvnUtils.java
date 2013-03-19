@@ -4,8 +4,6 @@
  */
 package br.danielcastellani.sonaranalyser;
 
-import br.danielcastellani.sonaranalyser.exception.ShapException;
-import java.io.IOException;
 import java.util.Properties;
 
 /**
@@ -16,12 +14,17 @@ public class SvnUtils {
 
     static void checkout(Properties props, int revisionNumber) {
         final String svnHome = props.getProperty(Main.SVN_HOME);
+        final String svnUsername = props.getProperty(Main.SVN_USERNAME);
+        final String svnPassword = props.getProperty(Main.SVN_PASSWORD);
         final String projectUrl = props.getProperty(Main.PROJECT_URL);
         final String destinationFolder = props.getProperty(Main.DESTINATION_FOLDER);
 
-        final String command = svnHome + "\\bin\\svn checkout " + projectUrl + " " + destinationFolder;
+        String command = svnHome + "\\bin\\svn checkout " + projectUrl + " " + destinationFolder;
+
+        if (svnUsername != null && svnPassword != null) {
+            command += "--username " + svnUsername + " --password " + svnPassword;
+        }
+
         CliUtils.exec(command);
     }
-
-
 }

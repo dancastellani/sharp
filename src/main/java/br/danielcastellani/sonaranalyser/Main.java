@@ -1,5 +1,10 @@
 package br.danielcastellani.sonaranalyser;
 
+import br.danielcastellani.sonaranalyser.exception.ShapException;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Properties;
 
 public class Main {
@@ -10,6 +15,8 @@ public class Main {
     public static final String PROPERTIES_FILE = "properties.file";
     public static final String SONAR_RUNNER = "sonar.runner";
     public static final String SVN_HOME = "svn.home";
+    public static final String SVN_USERNAME = "svn.username";
+    public static final String SVN_PASSWORD = "svn.password";
     public static final String DESTINATION_FOLDER = "destination.folder";
 
     public static void main(String[] args) {
@@ -30,6 +37,24 @@ public class Main {
         }
     }
 
+    private static void loadProperty(Properties props, String arg) {
+        String key = arg.substring(2).split("=")[0];
+        String value = arg.split("=")[1];
+        if (PROPERTIES_FILE.equals(key)
+                || IR.equals(key)
+                || FR.equals(key)
+                || SONAR_RUNNER.equals(key)
+                || SVN_HOME.equals(key)
+                || SVN_PASSWORD.equals(key)
+                || SVN_USERNAME.equals(key)
+                || PROJECT_URL.equals(key)) {
+            props.setProperty(key, value);
+            System.out.println("Loading property: " + key + "=" + value);
+        } else {
+            System.out.println("Unrecognized option: " + arg + ". For help use -h");
+        }
+    }
+
     private static void verifyInitialAndFinalRevisionNumbers(int initialRevision, int finalRevision) {
         if (initialRevision > finalRevision) {
             System.out.println("Initial revision must be less than final revision.");
@@ -45,28 +70,20 @@ public class Main {
 
             if ("-h".equals(arg) || "--help".equals(arg)) {
                 printUsage();
+            } else if (arg.startsWith("-F")) {
+                if (args.length != 2) {
+                    System.out.println("Ivalid number of arguments: " + args.length + ". When using -F, just it can be used.");
+                    System.exit(0);
+                }
+                String filePath = args[1];
+                return loadPropertiesFromFile(filePath);
             } else if (arg.startsWith("-D")) {
 
                 if (!arg.contains("=")) {
                     System.out.println("The properties defined with -D must be with like key=value. Example: -Di=10");
                     System.exit(0);
                 }
-                String key = args[i].substring(2).split("=")[0];
-                String value = args[i].split("=")[1];
-
-                if (PROPERTIES_FILE.equals(key)
-                        || IR.equals(key)
-                        || FR.equals(key)
-                        || SONAR_RUNNER.equals(key)
-                        || SVN_HOME.equals(key)
-                        || PROJECT_URL.equals(key)) {
-
-                    props.setProperty(key, value);
-                    System.out.println("Loading property: " + key + "=" + value);
-
-                } else {
-                    System.out.println("Unrecognized option: " + arg + ". For help use -h");
-                }
+                loadProperty(props, arg);
             } else {
                 System.out.println("Unrecognized option: " + arg + ". For help use -h");
             }
@@ -81,15 +98,41 @@ public class Main {
         System.out.println("Options:");
         System.out.println(" -h,--help          Display (this) help information");
         System.out.println(" -D key=value       Define property 'key' with the value 'value'.");
+        System.out.println(" -F <arg>           Define configuration file to use, which must contain the properties below.");
         System.out.println("\nAcceptable properties are:");
         System.out.println("    " + PROPERTIES_FILE + "     (*) Defines where the project is.");
         System.out.println("    " + IR + "                  (*) Defines the Inicial Revision to be considered.");
         System.out.println("    " + FR + "                  (*) Defines the Final Revision to be considered.");
         System.out.println("    " + SONAR_RUNNER + "        (*) Defines the Sonar Runner folder.");
         System.out.println("    " + SVN_HOME + "            (*) Defines the SVN folder.");
+        System.out.println("    " + SVN_USERNAME + "        (*) Defines the SVN username to be user.");
+        System.out.println("    " + SVN_PASSWORD + "        (*) Defines the SVN password to be used.");
         System.out.println("    " + PROJECT_URL + "         (*) Defines the url of the project's SVN.");
         System.out.println("                   ---> (*) Indicates a obligated property. ");
         System.out.println("\nThe only suported version control system is SVN.");
         System.exit(0);
+    }
+
+    private static Properties loadPropertiesFromFile(String filePath) {
+        BufferedReader bf = null;
+        try {
+            Properties props = new Properties();
+            File configurationFile = new File(filePath);
+            bf = new BufferedReader(new FileReader(configurationFile));
+            String line;
+            while ((line = bf.readLine()) != null) {
+                loadProperty(props, line);
+            }
+            return props;
+
+        } catch (IOException ex) {
+            throw new ShapException(ex);
+        } finally {
+            try {
+                bf.close();
+            } catch (IOException ex) {
+                throw new ShapException(ex);
+            }
+        }
     }
 }
