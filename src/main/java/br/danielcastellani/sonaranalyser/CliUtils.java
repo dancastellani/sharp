@@ -15,24 +15,34 @@ import java.io.InputStreamReader;
  */
 public class CliUtils {
 
-    static String exec(String command) {
+    static String exec(String command, boolean verbose) {
         try {
             StringBuffer outputString = new StringBuffer();
-            System.out.println("Executando:" + command);
+            println(verbose, "Executando:" + command);
             Process p = Runtime.getRuntime().exec(command);
-//            PrintStream ps = new PrintStream(p.getOutputStream());
-//            ps.println();
 
             BufferedReader bf = new BufferedReader(new InputStreamReader(p.getInputStream()));
             String line = null;
             while ((line = bf.readLine()) != null) {
-                System.out.println(line);
+                if (verbose) {
+                    System.out.println(line);
+                }
                 outputString.append(line).append("\n");
             }
-            System.out.println("Done. -<:" + command);
+            println(true, "Done. -<:" + command);
             return outputString.toString();
         } catch (IOException ex) {
             throw new ShapException(ex);
+        }
+    }
+
+    public static void println(boolean verbose, String str) {
+        print(verbose, str + "\n");
+    }
+
+    public static void print(boolean verbose, String str) {
+        if (verbose) {
+            System.out.println(str);
         }
     }
 }

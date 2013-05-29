@@ -108,6 +108,12 @@ public class Main {
 
             if ("-h".equals(arg) || "--help".equals(arg)) {
                 printUsage();
+//            } else if ("-g".equals(arg) || "--generate".equals(arg)) {
+//                //TODO: get the file name if is passed
+////                if (args.length > i) {
+////                    
+////                }
+//                PropertiesFile.generateDefaultPropertiesFile(null);
             } else if (arg.startsWith("-F")) {
                 if (args.length != 2) {
                     System.out.println("Ivalid number of arguments: " + args.length + ". When using -F, just it can be used.");
@@ -161,7 +167,7 @@ public class Main {
             String line;
             System.out.println("Processing file:    ");
             while ((line = bf.readLine()) != null) {
-                System.out.print("> " + line + "...");
+                System.out.print("> " + line + "... ");
                 if (line.startsWith(COMENTS)) {
                     System.out.println(" Ignoring comented line. ");
                     continue;

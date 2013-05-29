@@ -27,7 +27,7 @@ public class SvnUtils {
             command += " --username " + svnUsername + " --password " + svnPassword;
         }
 
-        CliUtils.exec(command);
+        CliUtils.exec(command, true);
     }
 
     static void update(Properties props, int revisionNumber) {
@@ -41,7 +41,7 @@ public class SvnUtils {
             command += " --username " + svnUsername + " --password " + svnPassword;
         }
 
-        CliUtils.exec(command);
+        CliUtils.exec(command, true);
     }
 
     public static List<Integer> getRevisionsInRange(int initialRevision, int finalRevision, Properties props) {
@@ -57,7 +57,7 @@ public class SvnUtils {
             command += " --username " + svnUsername + " --password " + svnPassword;
         }
 
-        String svnLogOutput = CliUtils.exec(command);
+        String svnLogOutput = CliUtils.exec(command, false);
         List<Integer> revisions = new LinkedList<Integer>();
         for (String line : svnLogOutput.split("\n")) {
             if (line.startsWith("r")) {

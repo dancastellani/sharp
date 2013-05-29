@@ -25,7 +25,10 @@ public class SonarRunnerUtils {
         System.out.println("Checking if File " + propertiesFile.getAbsoluteFile() + " exists: " + propertiesFile.exists());
 
         final String useVcsVersion = props.getProperty(Main.USE_VCS_VERSION);
+        System.out.println("useVcsVersion = " + useVcsVersion);
         boolean forcePropertiesFileCreation = useVcsVersion != null && "true".equalsIgnoreCase(useVcsVersion);
+        System.out.println("forcePropertiesFileCreation = " + forcePropertiesFileCreation);
+
         if (forcePropertiesFileCreation) {
             System.out.println("Generating sonar-project.properties with version number of VCS.");
             final String projectKey = props.getProperty(Main.SONAR_PROJECT_KEY);
@@ -50,7 +53,7 @@ public class SonarRunnerUtils {
         final String sonarRunner = props.getProperty(Main.SONAR_RUNNER);
 
         final String command = sonarRunner + "/bin/sonar-runner.bat -D project.home=" + destinationFolder;
-        CliUtils.exec(command);
+        CliUtils.exec(command, true);
 
     }
 
