@@ -109,14 +109,15 @@ public class Main {
             if ("-h".equals(arg) || "--help".equals(arg)) {
                 printUsage();
 //            } else if ("-g".equals(arg) || "--generate".equals(arg)) {
-//                //TODO: get the file name if is passed
-////                if (args.length > i) {
-////                    
-////                }
-//                PropertiesFile.generateDefaultPropertiesFile(null);
+//                if (args.length != 2) {
+//                    System.out.println("Ivalid number of arguments: " + args.length + ". When using -g, just it can be used. With one argument.");
+//                    System.exit(0);
+//                }
+//                String fileName = args[1];
+//                PropertiesFile.generateDefaultPropertiesFile(fileName);
             } else if (arg.startsWith("-F")) {
                 if (args.length != 2) {
-                    System.out.println("Ivalid number of arguments: " + args.length + ". When using -F, just it can be used.");
+                    System.out.println("Ivalid number of arguments: " + args.length + ". When using -F, just it can be used. With one argument.");
                     System.exit(0);
                 }
                 String filePath = args[1];
