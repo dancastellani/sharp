@@ -1,5 +1,6 @@
 package br.danielcastellani.sonaranalyser;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import junit.framework.Assert;
@@ -37,8 +38,17 @@ public class Test extends TestCase {
         int finalRevision = 10;
 
         List<Integer> response = SvnUtils.getRevisionsInRange(initialRevision, finalRevision, props);
-        Assert.assertEquals(10, response.size());
+        Assert.assertTrue("Empty revisions range", !response.isEmpty());
     }
+
+//    public void testUseShapOnItselfWithPropertiesFile() {
+//        List<String> props = new ArrayList<String>();
+//        props.add("-F");
+//        props.add("./src/test/resources/shap.properties");
+//
+//        Main.main(props.toArray(new String[0]));
+////        Assert.assertTrue("Empty revisions range", !response.isEmpty());
+//    }
 //    public void testExecuteFromFile() {
 //        List<String> props = new ArrayList<String>();
 //        props.add("-F");

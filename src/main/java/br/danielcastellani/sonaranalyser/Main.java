@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
@@ -40,26 +41,30 @@ public class Main {
         Properties props = parseArguments(args);
         props.put(DESTINATION_FOLDER, "temp-revisions");
 
-        int initialRevision = Integer.parseInt(props.getProperty(IR));
-        int finalRevision = Integer.parseInt(props.getProperty(FR));
+        Integer initialRevision = props.getProperty(IR) != null ? Integer.parseInt(props.getProperty(IR)) : null;;
+        Integer finalRevision = props.getProperty(FR) != null ? Integer.parseInt(props.getProperty(FR)) : null;;
         verifyInitialAndFinalRevisionNumbers(initialRevision, finalRevision);
 
         List<Integer> validRevisions = SvnUtils.getRevisionsInRange(initialRevision, finalRevision, props);
+        Collections.sort(validRevisions);
         System.out.println("Valid Revisions in rage: " + validRevisions.toString());
 
-        boolean firstRevision = true;
+//        boolean firstRevision = true;
         for (Integer revisionNumber : validRevisions) {
             System.out.println("------------------------------ Processing Revision " + revisionNumber);
             props.put(CURRENT_PROJECT_VERSION, "r" + revisionNumber);
-            if (firstRevision) {
-                SvnUtils.checkout(props, revisionNumber);
-                firstRevision = false;
-            } else {
-                SvnUtils.update(props, revisionNumber);
-            }
+//            if (firstRevision) {
+            props.put(DESTINATION_FOLDER, "temp-revisions-r" + revisionNumber);
+            SvnUtils.checkout(props, revisionNumber);
+//                firstRevision = false;
+//            } else {
+//                SvnUtils.update(props, revisionNumber);
+//            }
             System.out.println("");
             SonarRunnerUtils.analyse(props);
             System.out.println("\n\n");
+            File temporaryFolder = new File(props.getProperty(DESTINATION_FOLDER));
+            System.out.println("Deleting temporary folder " + temporaryFolder.getPath() + ": " + FileUtils.delete(temporaryFolder));
 //            break;
         }
         System.out.println("------ Finished ---------------------------");
@@ -93,7 +98,10 @@ public class Main {
         }
     }
 
-    private static void verifyInitialAndFinalRevisionNumbers(int initialRevision, int finalRevision) {
+    private static void verifyInitialAndFinalRevisionNumbers(Integer initialRevision, Integer finalRevision) {
+        if (initialRevision == null && finalRevision == null) {
+            return;
+        }
         if (initialRevision > finalRevision) {
             System.out.println("Initial revision must be less than final revision.");
             System.out.println("Or equal if you want to analyse just one revision.");
@@ -109,15 +117,14 @@ public class Main {
             if ("-h".equals(arg) || "--help".equals(arg)) {
                 printUsage();
 //            } else if ("-g".equals(arg) || "--generate".equals(arg)) {
-//                if (args.length != 2) {
-//                    System.out.println("Ivalid number of arguments: " + args.length + ". When using -g, just it can be used. With one argument.");
-//                    System.exit(0);
-//                }
-//                String fileName = args[1];
-//                PropertiesFile.generateDefaultPropertiesFile(fileName);
+//                //TODO: get the file name if is passed
+////                if (args.length > i) {
+////                    
+////                }
+//                PropertiesFile.generateDefaultPropertiesFile(null);
             } else if (arg.startsWith("-F")) {
                 if (args.length != 2) {
-                    System.out.println("Ivalid number of arguments: " + args.length + ". When using -F, just it can be used. With one argument.");
+                    System.out.println("Ivalid number of arguments: " + args.length + ". When using -F, just it can be used.");
                     System.exit(0);
                 }
                 String filePath = args[1];
@@ -164,6 +171,9 @@ public class Main {
         try {
             Properties props = new Properties();
             File configurationFile = new File(filePath);
+            if (!configurationFile.exists()) {
+                throw new RuntimeException("File <" + configurationFile.getAbsolutePath() + "> do not exists.");
+            }
             bf = new BufferedReader(new FileReader(configurationFile));
             String line;
             System.out.println("Processing file:    ");
@@ -184,7 +194,9 @@ public class Main {
             throw new ShapException(ex);
         } finally {
             try {
-                bf.close();
+                if (bf != null) {
+                    bf.close();
+                }
             } catch (IOException ex) {
                 throw new ShapException(ex);
             }

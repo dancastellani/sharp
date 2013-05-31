@@ -39,4 +39,13 @@ public class FileUtils {
             throw new ShapException(e);
         }
     }
+    
+    public static boolean delete(File file){
+        if (file.isDirectory()) {
+            for (File subFile : file.listFiles()) {
+                FileUtils.delete(subFile);
+            }
+        }
+        return file.delete();
+    }
 }

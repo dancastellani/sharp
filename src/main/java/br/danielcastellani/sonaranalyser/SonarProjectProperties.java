@@ -57,10 +57,10 @@ public class SonarProjectProperties {
             content.append("sonar.tests=").append(projectInformation.tests).append(BREAK_LINE);
             content.append(BREAK_LINE);
             content.append("# path to project binaries (optional), for example directory of Java bytecode").append(BREAK_LINE);
-            content.append("sonar.binaries=").append(projectInformation.binaries).append(BREAK_LINE);
+            content.append("#sonar.binaries=").append(projectInformation.binaries).append(BREAK_LINE);
             content.append(BREAK_LINE);
             content.append("# optional comma-separated list of paths to libraries. Only path to JAR file is supported.").append(BREAK_LINE);
-            content.append("sonar.libraries=").append(projectInformation.libraries).append(BREAK_LINE);
+            content.append("#sonar.libraries=").append(projectInformation.libraries).append(BREAK_LINE);
             content.append(BREAK_LINE);
             content.append("# The value of the property must be the key of the language.").append(BREAK_LINE);
             content.append("sonar.language=").append(projectInformation.language).append(BREAK_LINE);

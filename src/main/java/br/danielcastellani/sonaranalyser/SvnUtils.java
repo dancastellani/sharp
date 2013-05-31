@@ -44,20 +44,27 @@ public class SvnUtils {
         CliUtils.exec(command, true);
     }
 
-    public static List<Integer> getRevisionsInRange(int initialRevision, int finalRevision, Properties props) {
+    public static List<Integer> getRevisionsInRange(Integer initialRevision, Integer finalRevision, Properties props) {
 
         final String svnHome = props.getProperty(Main.SVN_HOME);
         final String svnUsername = props.getProperty(Main.SVN_USERNAME);
         final String svnPassword = props.getProperty(Main.SVN_PASSWORD);
         final String projectUrl = props.getProperty(Main.PROJECT_URL);
 
-        String command = svnHome + "\\bin\\svn log -q -r" + initialRevision + ":" + finalRevision + " " + projectUrl;
 
-        if (svnUsername != null && svnPassword != null) {
-            command += " --username " + svnUsername + " --password " + svnPassword;
+        StringBuilder command = new StringBuilder(svnHome + "\\bin\\svn log -q ");
+
+        if (initialRevision != null || finalRevision != null) {
+            final String strFinalRevision = finalRevision != null ? finalRevision.toString() : "HEAD";
+            command.append("-r").append(initialRevision).append(":").append(strFinalRevision);
         }
 
-        String svnLogOutput = CliUtils.exec(command, false);
+        command.append(" ").append(projectUrl);
+        if (svnUsername != null && svnPassword != null) {
+            command.append(" --username ").append(svnUsername).append(" --password ").append(svnPassword);
+        }
+
+        String svnLogOutput = CliUtils.exec(command.toString(), false);
         List<Integer> revisions = new LinkedList<Integer>();
         for (String line : svnLogOutput.split("\n")) {
             if (line.startsWith("r")) {
