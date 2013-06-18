@@ -2,8 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.danielcastellani.sonaranalyser;
+package br.danielcastellani.sonaranalyser.subversion;
 
+import br.danielcastellani.sonaranalyser.Main;
+import br.danielcastellani.sonaranalyser.util.CliUtils;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
@@ -12,9 +14,9 @@ import java.util.Properties;
  *
  * @author DanCastellani
  */
-public class SvnUtils {
+public class SubversionService {
 
-    static void checkout(Properties props, int revisionNumber) {
+    public static void checkout(Properties props, int revisionNumber) {
         final String svnHome = props.getProperty(Main.SVN_HOME);
         final String svnUsername = props.getProperty(Main.SVN_USERNAME);
         final String svnPassword = props.getProperty(Main.SVN_PASSWORD);
@@ -30,7 +32,7 @@ public class SvnUtils {
         CliUtils.exec(command, true);
     }
 
-    static void update(Properties props, int revisionNumber) {
+    public static void update(Properties props, int revisionNumber) {
         final String svnHome = props.getProperty(Main.SVN_HOME);
         final String svnUsername = props.getProperty(Main.SVN_USERNAME);
         final String svnPassword = props.getProperty(Main.SVN_PASSWORD);

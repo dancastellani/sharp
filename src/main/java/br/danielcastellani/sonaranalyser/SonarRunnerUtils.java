@@ -4,6 +4,8 @@
  */
 package br.danielcastellani.sonaranalyser;
 
+import br.danielcastellani.sonaranalyser.util.FileUtils;
+import br.danielcastellani.sonaranalyser.util.CliUtils;
 import java.io.File;
 import java.util.Properties;
 

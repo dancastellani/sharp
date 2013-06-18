@@ -1,5 +1,7 @@
 package br.danielcastellani.sonaranalyser;
 
+import br.danielcastellani.sonaranalyser.util.FileUtils;
+import br.danielcastellani.sonaranalyser.subversion.SubversionService;
 import br.danielcastellani.sonaranalyser.exception.ShapException;
 import java.io.BufferedReader;
 import java.io.File;
@@ -45,7 +47,7 @@ public class Main {
         Integer finalRevision = props.getProperty(FR) != null ? Integer.parseInt(props.getProperty(FR)) : null;;
         verifyInitialAndFinalRevisionNumbers(initialRevision, finalRevision);
 
-        List<Integer> validRevisions = SvnUtils.getRevisionsInRange(initialRevision, finalRevision, props);
+        List<Integer> validRevisions = SubversionService.getRevisionsInRange(initialRevision, finalRevision, props);
         Collections.sort(validRevisions);
         System.out.println("Valid Revisions in rage: " + validRevisions.toString());
 
@@ -55,7 +57,7 @@ public class Main {
             props.put(CURRENT_PROJECT_VERSION, "r" + revisionNumber);
 //            if (firstRevision) {
             props.put(DESTINATION_FOLDER, "temp-revisions-r" + revisionNumber);
-            SvnUtils.checkout(props, revisionNumber);
+            SubversionService.checkout(props, revisionNumber);
 //                firstRevision = false;
 //            } else {
 //                SvnUtils.update(props, revisionNumber);

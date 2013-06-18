@@ -1,6 +1,6 @@
 package br.danielcastellani.sonaranalyser;
 
-import java.util.ArrayList;
+import br.danielcastellani.sonaranalyser.subversion.SubversionService;
 import java.util.List;
 import java.util.Properties;
 import junit.framework.Assert;
@@ -26,7 +26,7 @@ public class Test extends TestCase {
 //    }
     public void testGetRevisionNumberFromSvnLogOutputLine() {
         final String anOutputLine = "r106 | beto | 2009-09-10 18:50:36 -0300 (qui, 10 set 2009)";
-        int response = SvnUtils.getRevisionNumberFromSvnLogOutputLine(anOutputLine);
+        int response = SubversionService.getRevisionNumberFromSvnLogOutputLine(anOutputLine);
         Assert.assertEquals(106, response);
     }
 
@@ -37,7 +37,7 @@ public class Test extends TestCase {
         int initialRevision = 1;
         int finalRevision = 10;
 
-        List<Integer> response = SvnUtils.getRevisionsInRange(initialRevision, finalRevision, props);
+        List<Integer> response = SubversionService.getRevisionsInRange(initialRevision, finalRevision, props);
         Assert.assertTrue("Empty revisions range", !response.isEmpty());
     }
 

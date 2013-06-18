@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.danielcastellani.sonaranalyser;
+package br.danielcastellani.sonaranalyser.util;
 
 import br.danielcastellani.sonaranalyser.exception.ShapException;
 import java.io.BufferedReader;
@@ -15,7 +15,7 @@ import java.io.InputStreamReader;
  */
 public class CliUtils {
 
-    static String exec(String command, boolean verbose) {
+    public static String exec(String command, boolean verbose) {
         try {
             StringBuffer outputString = new StringBuffer();
             println(verbose, "Executando:" + command);
