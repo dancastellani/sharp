@@ -5,6 +5,7 @@
 package br.danielcastellani.sharp.sonarrunner;
 
 import java.io.File;
+import java.util.Date;
 
 /**
  *
@@ -23,6 +24,7 @@ public class ProjectInformation {
     public String binaries;
     public String libraries;
     public String language = "java";
+    public Date commitDate;
 
     /**
      *

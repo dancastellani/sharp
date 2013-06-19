@@ -6,6 +6,8 @@ package br.danielcastellani.sharp.subversion;
 
 import br.danielcastellani.sharp.Main;
 import br.danielcastellani.sharp.util.CliUtils;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
@@ -46,7 +48,7 @@ public class SubversionService {
         CliUtils.exec(command, true);
     }
 
-    public static List<Integer> getRevisionsInRange(Integer initialRevision, Integer finalRevision, Properties props) {
+    public static List<Revision> getRevisionsInRange(Integer initialRevision, Integer finalRevision, Properties props) {
 
         final String svnHome = props.getProperty(Main.SVN_HOME);
         final String svnUsername = props.getProperty(Main.SVN_USERNAME);
@@ -67,10 +69,13 @@ public class SubversionService {
         }
 
         String svnLogOutput = CliUtils.exec(command.toString(), false);
-        List<Integer> revisions = new LinkedList<Integer>();
+        List<Revision> revisions = new LinkedList<Revision>();
         for (String line : svnLogOutput.split("\n")) {
             if (line.startsWith("r")) {
-                revisions.add(getRevisionNumberFromSvnLogOutputLine(line));
+                Revision oneRevision = new Revision();
+                oneRevision.number = getRevisionNumberFromSvnLogOutputLine(line);
+                oneRevision.date = getRevisionDateFromSvnLogOutputLine(line);
+                revisions.add(oneRevision);
             }
         }
         return revisions;
@@ -78,5 +83,17 @@ public class SubversionService {
 
     public static Integer getRevisionNumberFromSvnLogOutputLine(String line) {
         return Integer.parseInt(line.split(" ")[0].substring(1));
+    }
+
+    public static Calendar getRevisionDateFromSvnLogOutputLine(String line) {
+        //r1 | (no author) | 2013-03-18 22:34:37 -0300 (seg, 18 mar 2013) | 1 line
+        String dateInformation = line.split("\\|")[2].trim();
+        //2013-03-18 22:34:37 -0300 (seg, 18 mar 2013) 
+        dateInformation = dateInformation.split(" ")[0];
+        final int year = Integer.parseInt(dateInformation.split("-")[0]);
+        final int month = Integer.parseInt(dateInformation.split("-")[1])-1;
+        final int dayOfMonth = Integer.parseInt(dateInformation.split("-")[2]);
+
+        return new GregorianCalendar(year, month, dayOfMonth);
     }
 }

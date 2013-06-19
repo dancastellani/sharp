@@ -4,6 +4,7 @@ import br.danielcastellani.sharp.sonarrunner.SonarRunnerUtils;
 import br.danielcastellani.sharp.util.FileUtils;
 import br.danielcastellani.sharp.subversion.SubversionService;
 import br.danielcastellani.sharp.exception.ShapException;
+import br.danielcastellani.sharp.subversion.Revision;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -34,6 +35,7 @@ public class Main {
     public static final String SONAR_SOURCES = "sonar.sources";
     public static final String SONAR_TESTS = "sonar.tests";
     public static final String SONAR_LANGUAGE = "sonar.language";
+    public static final String SONAR_PROJECT_DATE = "sonar.projectDate";
 
     //TODO: Change the output from sout to a more elegant way
     public static void main(String[] args) {
@@ -48,21 +50,19 @@ public class Main {
         Integer finalRevision = props.getProperty(FR) != null ? Integer.parseInt(props.getProperty(FR)) : null;;
         verifyInitialAndFinalRevisionNumbers(initialRevision, finalRevision);
 
-        List<Integer> validRevisions = SubversionService.getRevisionsInRange(initialRevision, finalRevision, props);
+        List<Revision> validRevisions = SubversionService.getRevisionsInRange(initialRevision, finalRevision, props);
         Collections.sort(validRevisions);
         System.out.println("Valid Revisions in rage: " + validRevisions.toString());
 
 //        boolean firstRevision = true;
-        for (Integer revisionNumber : validRevisions) {
-            System.out.println("------------------------------ Processing Revision " + revisionNumber);
-            props.put(CURRENT_PROJECT_VERSION, "r" + revisionNumber);
-//            if (firstRevision) {
-            props.put(DESTINATION_FOLDER, "temp-revisions-r" + revisionNumber);
-            SubversionService.checkout(props, revisionNumber);
-//                firstRevision = false;
-//            } else {
-//                SvnUtils.update(props, revisionNumber);
-//            }
+        for (Revision revision : validRevisions) {
+            System.out.println("------------------------------ Processing Revision " + revision);
+            props.put(CURRENT_PROJECT_VERSION, "r" + revision.number);
+            props.put(SONAR_PROJECT_DATE, revision.getFormatedDate());
+
+            props.put(DESTINATION_FOLDER, "temp-revisions-r" + revision.number);
+            SubversionService.checkout(props, revision.number);
+
             System.out.println("");
             SonarRunnerUtils.analyse(props);
             System.out.println("\n\n");
