@@ -2,10 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.danielcastellani.sonaranalyser.subversion;
+package br.danielcastellani.sharp.subversion;
 
-import br.danielcastellani.sonaranalyser.Main;
-import br.danielcastellani.sonaranalyser.util.CliUtils;
+import br.danielcastellani.sharp.Main;
+import br.danielcastellani.sharp.util.CliUtils;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;

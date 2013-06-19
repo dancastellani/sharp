@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.danielcastellani.sonaranalyser;
+package br.danielcastellani.sharp;
 
 import java.io.FileWriter;
 import java.io.IOException;

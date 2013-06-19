@@ -1,6 +1,7 @@
 package br.danielcastellani.sonaranalyser;
 
-import br.danielcastellani.sonaranalyser.subversion.SubversionService;
+import br.danielcastellani.sharp.Main;
+import br.danielcastellani.sharp.subversion.SubversionService;
 import java.util.List;
 import java.util.Properties;
 import junit.framework.Assert;

@@ -2,13 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.danielcastellani.sonaranalyser.sonarrunner;
+package br.danielcastellani.sharp.sonarrunner;
 
-import br.danielcastellani.sonaranalyser.Main;
-import br.danielcastellani.sonaranalyser.SonarProjectInformation;
-import br.danielcastellani.sonaranalyser.SonarProjectProperties;
-import br.danielcastellani.sonaranalyser.util.FileUtils;
-import br.danielcastellani.sonaranalyser.util.CliUtils;
+import br.danielcastellani.sharp.Main;
+import br.danielcastellani.sharp.SonarProjectProperties;
+import br.danielcastellani.sharp.util.FileUtils;
+import br.danielcastellani.sharp.util.CliUtils;
 import java.io.File;
 import java.util.Properties;
 
@@ -41,7 +40,7 @@ public class SonarRunnerUtils {
             final String projectCurrentVersion = props.getProperty(Main.CURRENT_PROJECT_VERSION);
             final String projectPath = props.getProperty(Main.DESTINATION_FOLDER);
 
-            SonarProjectInformation projectInformation = SonarProjectInformation.createMavenProjectInformation(projectKey, projectName, projectCurrentVersion, new File(projectPath));
+            ProjectInformation projectInformation = ProjectInformation.createMavenProjectInformation(projectKey, projectName, projectCurrentVersion, new File(projectPath));
             SonarProjectProperties.createDeafaulSonarProjectPropertiesFile(projectInformation, forcePropertiesFileCreation);
 
         } else if (!propertiesFile.exists()) {

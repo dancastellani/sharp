@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.danielcastellani.sonaranalyser;
+package br.danielcastellani.sharp.sonarrunner;
 
 import java.io.File;
 
@@ -10,7 +10,7 @@ import java.io.File;
  *
  * @author DanCastellani
  */
-public class SonarProjectInformation {
+public class ProjectInformation {
 
     public File projectFolder;
     //Sonar properties(http://docs.codehaus.org/display/SONAR/Analyzing+with+Sonar+Runner):
@@ -30,7 +30,7 @@ public class SonarProjectInformation {
      * @param projectName
      * @param projectVersion
      */
-    public SonarProjectInformation(String projectKey, String projectName, String projectVersion) {
+    public ProjectInformation(String projectKey, String projectName, String projectVersion) {
         this.projectKey = projectKey;
         this.projectName = projectName;
         this.projectVersion = projectVersion;
@@ -44,8 +44,8 @@ public class SonarProjectInformation {
      * @param projectDescription
      * @return
      */
-    public static SonarProjectInformation createMavenProjectInformation(String projectKey, String projectName, String projectVersion, String projectDescription) {
-        SonarProjectInformation projectInformation = new SonarProjectInformation(projectKey, projectName, projectVersion);
+    public static ProjectInformation createMavenProjectInformation(String projectKey, String projectName, String projectVersion, String projectDescription) {
+        ProjectInformation projectInformation = new ProjectInformation(projectKey, projectName, projectVersion);
 
         projectInformation.sources = "src/main/java";
         projectInformation.tests = "src/test/java";
@@ -61,7 +61,7 @@ public class SonarProjectInformation {
      * @param projectVersion
      * @return
      */
-    public static SonarProjectInformation createMavenProjectInformation(String projectKey, String projectName, String projectVersion) {
+    public static ProjectInformation createMavenProjectInformation(String projectKey, String projectName, String projectVersion) {
         return createMavenProjectInformation(projectKey, projectName, projectVersion, "");
     }
 
@@ -73,8 +73,8 @@ public class SonarProjectInformation {
      * @param projectFolder
      * @return
      */
-    public static SonarProjectInformation createMavenProjectInformation(String projectKey, String projectName, String projectVersion, File projectFolder) {
-        SonarProjectInformation projectInformation = createMavenProjectInformation(projectKey, projectName, projectVersion);
+    public static ProjectInformation createMavenProjectInformation(String projectKey, String projectName, String projectVersion, File projectFolder) {
+        ProjectInformation projectInformation = createMavenProjectInformation(projectKey, projectName, projectVersion);
         projectInformation.projectFolder = projectFolder;
         return projectInformation;
     }

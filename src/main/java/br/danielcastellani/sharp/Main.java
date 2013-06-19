@@ -1,9 +1,9 @@
-package br.danielcastellani.sonaranalyser;
+package br.danielcastellani.sharp;
 
-import br.danielcastellani.sonaranalyser.sonarrunner.SonarRunnerUtils;
-import br.danielcastellani.sonaranalyser.util.FileUtils;
-import br.danielcastellani.sonaranalyser.subversion.SubversionService;
-import br.danielcastellani.sonaranalyser.exception.ShapException;
+import br.danielcastellani.sharp.sonarrunner.SonarRunnerUtils;
+import br.danielcastellani.sharp.util.FileUtils;
+import br.danielcastellani.sharp.subversion.SubversionService;
+import br.danielcastellani.sharp.exception.ShapException;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;

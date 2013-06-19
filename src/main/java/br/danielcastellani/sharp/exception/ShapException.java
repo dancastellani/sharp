@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package br.danielcastellani.sonaranalyser.exception;
+package br.danielcastellani.sharp.exception;
 
 /**
  *

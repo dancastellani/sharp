@@ -2,9 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.danielcastellani.sonaranalyser.util;
+package br.danielcastellani.sharp.util;
 
-import br.danielcastellani.sonaranalyser.exception.ShapException;
+import br.danielcastellani.sharp.exception.ShapException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
