@@ -22,7 +22,7 @@ public class SonarProjectProperties {
      *
      * @param projectInformation
      */
-    static void createDeafaulSonarProjectPropertiesFile(SonarProjectInformation projectInformation, boolean overWriteExistingPropertiesFile) {
+    public static void createDeafaulSonarProjectPropertiesFile(SonarProjectInformation projectInformation, boolean overWriteExistingPropertiesFile) {
         File propertiesFile = new File(projectInformation.projectFolder.getAbsolutePath() + File.separator + SONAR_PROJECT_PROPERTIES_FILE_NAME);
         if (overWriteExistingPropertiesFile) {
             boolean deleted = propertiesFile.delete();

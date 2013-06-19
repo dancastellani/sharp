@@ -2,8 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.danielcastellani.sonaranalyser;
+package br.danielcastellani.sonaranalyser.sonarrunner;
 
+import br.danielcastellani.sonaranalyser.Main;
+import br.danielcastellani.sonaranalyser.SonarProjectInformation;
+import br.danielcastellani.sonaranalyser.SonarProjectProperties;
 import br.danielcastellani.sonaranalyser.util.FileUtils;
 import br.danielcastellani.sonaranalyser.util.CliUtils;
 import java.io.File;
@@ -15,7 +18,7 @@ import java.util.Properties;
  */
 public class SonarRunnerUtils {
 
-    static void analyse(Properties props) {
+    public static void analyse(Properties props) {
         prepareProject(props);
         executeSonarRunner(props);
     }

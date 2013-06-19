@@ -1,5 +1,6 @@
 package br.danielcastellani.sonaranalyser;
 
+import br.danielcastellani.sonaranalyser.sonarrunner.SonarRunnerUtils;
 import br.danielcastellani.sonaranalyser.util.FileUtils;
 import br.danielcastellani.sonaranalyser.subversion.SubversionService;
 import br.danielcastellani.sonaranalyser.exception.ShapException;
