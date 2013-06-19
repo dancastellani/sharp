@@ -6,8 +6,8 @@
     <artifactId>SonarHistoryAnalysisProject</artifactId>
     <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>Sonar History Analysis Project</name>
-    <description>SHAP</description>
+    <name>sharp</name>
+    <description>Sonar History AnalyseR Project</description>
     <url>http://maven.apache.org</url>
     <build>
         <plugins>
