@@ -49,6 +49,7 @@ public class SonarProjectProperties {
             content.append("sonar.projectKey=").append(projectInformation.projectKey).append(BREAK_LINE);
             content.append("sonar.projectName=").append(projectInformation.projectName).append(BREAK_LINE);
             content.append("sonar.projectVersion=").append(projectInformation.projectVersion).append(BREAK_LINE);
+            content.append(Main.SONAR_PROJECT_DATE).append("=").append(projectInformation.commitDate).append(BREAK_LINE);
             content.append(BREAK_LINE);
             content.append("# optional description").append(BREAK_LINE);
             content.append("sonar.projectDescription=").append(projectInformation.projectDescription).append(BREAK_LINE);

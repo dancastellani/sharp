@@ -24,7 +24,7 @@ public class ProjectInformation {
     public String binaries;
     public String libraries;
     public String language = "java";
-    public Date commitDate;
+    public String commitDate;
 
     /**
      *
@@ -78,6 +78,12 @@ public class ProjectInformation {
     public static ProjectInformation createMavenProjectInformation(String projectKey, String projectName, String projectVersion, File projectFolder) {
         ProjectInformation projectInformation = createMavenProjectInformation(projectKey, projectName, projectVersion);
         projectInformation.projectFolder = projectFolder;
+        return projectInformation;
+    }
+
+    public static ProjectInformation createMavenProjectInformation(String projectKey, String projectName, String projectVersion, File projectFolder, String commitDate) {
+        ProjectInformation projectInformation = createMavenProjectInformation(projectKey, projectName, projectVersion, projectFolder);
+        projectInformation.commitDate = commitDate;
         return projectInformation;
     }
 }

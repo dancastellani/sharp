@@ -40,7 +40,7 @@ public class SonarRunnerUtils {
             final String projectCurrentVersion = props.getProperty(Main.CURRENT_PROJECT_VERSION);
             final String projectPath = props.getProperty(Main.DESTINATION_FOLDER);
 
-            ProjectInformation projectInformation = ProjectInformation.createMavenProjectInformation(projectKey, projectName, projectCurrentVersion, new File(projectPath));
+            ProjectInformation projectInformation = ProjectInformation.createMavenProjectInformation(projectKey, projectName, projectCurrentVersion, new File(projectPath), props.getProperty(Main.SONAR_PROJECT_DATE));
             SonarProjectProperties.createDeafaulSonarProjectPropertiesFile(projectInformation, forcePropertiesFileCreation);
 
         } else if (!propertiesFile.exists()) {
