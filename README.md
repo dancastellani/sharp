@@ -51,6 +51,11 @@ It should be as the one's below, used to analyse Sharp's early project on Google
   -Dsonar.language=java
 </pre>
   
+Quality
+---
+
+Codeship: https://www.codeship.io/projects/4498
+  
 Need help? or It doesnt work properly?
 ---
 
