@@ -22,21 +22,33 @@ A Sharp properties file
 It should be as the one's below, used to analyse Sharp's early project on GoogleCode:
 
 <pre>
+  # ------------------- Sharp properties
+  #-Dir=0
+  #-Dfr=HEAD
+  -Dsvn.home=D:\svn-win32-1.6.6
+  -Dproject.url=https://sonar-history-analyses-project.googlecode.com/svn/trunk/
+  -Dsonar.runner=E:\teste-sonar-iduff\sonar-runner-2.0
+  #-Dproperties.file=E:\DanCastellani\Documents\My Dropbox\Projetos\Sonar Hystory Analysis Project\publico-core-sonar-project.properties
+  #If login and password are not set, Shap will try anonymous access.
+  #-Dsvn.username=
+  #-Dsvn.password=
+  -Dshap.use.vcs.version=true
+  #---------------------- sonar-project-properties
   # check file definition on http://docs.codehaus.org/display/SONAR/Analyzing+with+Sonar+Runner
   # required metadata
-  sonar.projectKey=br.com.danielcastellani
-  sonar.projectName=SonarAnalyser-Test
-  sonar.projectVersion=1.0-snapshot
-  
+  -Dsonar.projectKey=br.com.danielcastellani.Sonar-History-Analysis-Project
+  -Dsonar.projectName=Sonar History Analysis Project
+  #
+  #-Dsonar.projectVersion=x
   # optional description
-  sonar.projectDescription=
-  sonar.sources=src/main/java
-  
+  #-Dsonar.projectDescription=
+  -Dsonar.sources=src/main/java
+  #
   # path to test source directories (optional)
-  sonar.tests=src/test/java
-  
+  -Dsonar.tests=src/test/java
+  #
   # The value of the property must be the key of the language.
-  sonar.language=java
+  -Dsonar.language=java
 </pre>
   
 Need help? or It doesnt work properly?
