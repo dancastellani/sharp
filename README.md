@@ -1,4 +1,4 @@
-Sharp
+Sharp [![Build Status](https://travis-ci.org/dancastellani/sharp.png?branch=master)](https://travis-ci.org/dancastellani/sharp)
 =====
 
 Sonar History AnalyseR Project - is a Project to analyse a software's history with Sonar.
