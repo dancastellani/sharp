@@ -3,12 +3,12 @@ Sharp
 
 Sonar History AnalyseR Project - is a Project to analyse a software's history with Sonar.
 
-Hot It Works
+How It Works?
 ---
 
-Sharp get each revision stored on the project's Version Control System and analyses it with Sonar-Runner.
+Sharp get each revision stored on the project's Version Control System from a given url and analyses it with Sonar-Runner.
 
-To use it you need:
+How to use it?
 -------------------
 
 1. Install SVN on your machine
@@ -16,7 +16,7 @@ To use it you need:
 3. Create a Sharp properties file to describe the project
 4. Run Sharp with -f <properties-file-path> (created on 3)
 
-A Sharp properties file 
+Sharp properties file 
 -------------------
 
 It should be as the one's below, used to analyse Sharp's early project on GoogleCode:
@@ -50,12 +50,7 @@ It should be as the one's below, used to analyse Sharp's early project on Google
   # The value of the property must be the key of the language.
   -Dsonar.language=java
 </pre>
-  
-Quality
----
 
-Codeship: https://www.codeship.io/projects/4498
-  
 Need help? or It doesnt work properly?
 ---
 
