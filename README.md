@@ -51,8 +51,8 @@ It should be as the one's below, used to analyse Sharp's early project on Google
   -Dsonar.language=java
 </pre>
 
-Need help? or It doesnt work properly?
+Need help?
 ---
 
-Send me and email! =D
+If anything does not work properly, please tell me! =D
   
